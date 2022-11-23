@@ -38,28 +38,31 @@ async function sendGreeting(event) {
 
   const guestTx = {
     receiverId: GUEST_ADDRESS,
-    actions: [
-      // You can batch actions against a contract: If any fails, they ALL get reverted 
+    actions: [ // actions execute sequentially
       {
         type: 'FunctionCall',
-        params: { methodName: 'add_message', args: { text: greeting.value }, gas: THIRTY_TGAS, deposit: GUEST_DEPOSIT }
-      }
+        params: {
+          methodName: 'add_message', args: { text: greeting.value },
+          gas: THIRTY_TGAS, deposit: GUEST_DEPOSIT
+        }
+      },
     ]
   }
 
   const helloTx = {
     receiverId: HELLO_ADDRESS,
-    actions: [
-      // You can batch actions against a contract: If any fails, they ALL get reverted 
+    actions: [ // if any action fails, they all rollback together
       {
         type: 'FunctionCall',
-        params: { methodName: 'set_greeting', args: { greeting: greeting.value }, gas: THIRTY_TGAS, deposit: NO_DEPOSIT }
+        params: {
+          methodName: 'set_greeting', args: { greeting: greeting.value },
+          gas: THIRTY_TGAS, deposit: NO_DEPOSIT
+        }
       }
     ]
   }
 
-  // Ask the user to sign the **independent** transactions
-  //   If one fails, the rest are **NOT** reverted
+  // Sign **independent** transactions: If one fails, the rest **DO NOT** reverted
   await wallet.signAndSendTransactions({ transactions: [ helloTx, guestTx ] })
 }
 
