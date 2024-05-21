@@ -1,17 +1,17 @@
 # Interact With Multiple Contracts 
 [![](https://img.shields.io/badge/⋈%20Examples-Intermediate-orange)](https://docs.near.org/tutorials/welcome)
-[![](https://img.shields.io/badge/Contract-none-gray)](https://docs.near.org/develop/contracts/anatomy)
+[![](https://img.shields.io/badge/Contract-NONE-gray)](https://docs.near.org/develop/contracts/anatomy)
 [![](https://img.shields.io/badge/Frontend-JS-yellow)](https://docs.near.org/develop/integrate/frontend)
 
 A frontend-only example showing how to interact with multiple contracts simultaneously.
 
-![](frontend/assets/img-for-github.png)
+![](src/assets/img-for-github.png)
 
 
 # What This Example Shows
 
-1. How to view methods in multiple contracts.
-2. How to call methods in multiple contracts simultaneously.
+1. How to view methods in multiple contracts
+2. How to call methods in multiple contracts simultaneously
 
 <br />
 

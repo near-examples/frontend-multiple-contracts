@@ -11,10 +11,10 @@ const NO_DEPOSIT = '0';
 
 // Setup on page load
 window.onload = async () => {
-  let isSignedIn = await wallet.startUp();
+  let signedAccountId = await wallet.startUp(()=>{});
 
-  if (isSignedIn) {
-    signedInFlow();
+  if (signedAccountId) {
+    signedInFlow(signedAccountId);
   } else {
     signedOutFlow();
   }
@@ -62,7 +62,7 @@ async function sendGreeting(event) {
     ]
   }
 
-  // Sign **independent** transactions: If one fails, the rest **DO NOT** reverted
+  // Sign **independent** transactions: If one fails, the other **DOES NOT** revert
   await wallet.signAndSendTransactions({ transactions: [ helloTx, guestTx ] })
 }
 
@@ -73,7 +73,7 @@ async function getGreetingAndMessages() {
   // query the last 4 messages in the Guest Book
   const totalMessages = await wallet.viewMethod({method: 'total_messages', contractId: GUEST_ADDRESS })
   const from_index = (totalMessages > 4? totalMessages - 4: 0).toString();
-  const latestMessages = await wallet.viewMethod({ method: 'get_messages', contractId: GUEST_ADDRESS, args: {from_index, limit: 4} });
+  const latestMessages = await wallet.viewMethod({ method: 'get_messages', contractId: GUEST_ADDRESS, args: {from_index, limit: "4"} });
 
   // handle UI stuff
   update_UI(currentGreeting, from_index, latestMessages);
@@ -86,11 +86,11 @@ function signedOutFlow() {
 }
 
 // UI: Displaying the signed in flow container and fill in account-specific data
-function signedInFlow() {
+function signedInFlow(accountId) {
   document.querySelector('#signed-out-flow').style.display = 'none';
   document.querySelector('#signed-in-flow').style.display = 'block';
   document.querySelectorAll('[data-behavior=account-id]').forEach(el => {
-    el.innerText = wallet.accountId;
+    el.innerText = accountId;
   });
 }
 
