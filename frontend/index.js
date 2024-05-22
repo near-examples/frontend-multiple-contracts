@@ -1,6 +1,6 @@
 import 'regenerator-runtime/runtime';
 import { utils } from 'near-api-js'
-import { Wallet } from './near-wallet';
+import { Wallet } from './wallet';
 
 const HELLO_ADDRESS = "hello.near-examples.testnet";
 const GUEST_ADDRESS = "guestbook.near-examples.testnet";
@@ -10,14 +10,10 @@ const THIRTY_TGAS = '30000000000000';
 const NO_DEPOSIT = '0';
 
 // Setup on page load
-window.onload = async () => {
-  let signedAccountId = await wallet.startUp(()=>{});
-
-  if (signedAccountId) {
-    signedInFlow(signedAccountId);
-  } else {
-    signedOutFlow();
-  }
+window.onload = () => {
+  wallet.startUp(
+    signedAccountId => signedAccountId? signedInFlow(signedAccountId): signedOutFlow()
+  );
 
   getGreetingAndMessages();
 };
