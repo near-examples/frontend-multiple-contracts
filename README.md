@@ -5,7 +5,7 @@
 
 A frontend-only example showing how to interact with multiple contracts simultaneously.
 
-![](src/assets/img-for-github.png)
+![](frontend/assets/img-for-github.png)
 
 
 # What This Example Shows
@@ -16,7 +16,7 @@ A frontend-only example showing how to interact with multiple contracts simultan
 <br />
 
 # Multiple Transactions
-`near-api-js` allows to dispatch multiple transactions simultaneously, so the user interacts with the wallet only once. However, the transactions remain **independent**.
+`@hot-labs/near-connect` lets the connected wallet sign multiple transactions together, so the user interacts with the wallet only once. However, the transactions remain **independent**.
 
 ```js
 const guestTx = {
@@ -51,8 +51,8 @@ await wallet.signAndSendTransactions({ transactions: [ helloTx, guestTx ] })
 ```
 
 In this example, the user signs two independent transactions:
-1. A transaction to call `set_greeting` in our [Hello NEAR example](https://github.com/near-examples/hello-near-rust)
-2. A transaction to call `add_message` in our [GuestBook example](https://github.com/near-examples/guest-book-rust)
+1. A transaction to call `set_greeting` in our [Hello NEAR example](https://github.com/near-examples/hello-near-examples)
+2. A transaction to call `add_message` in our [GuestBook example](https://github.com/near-examples/guest-book-examples)
 
 **Important Note:** Even when the user accepts signing the transactions at the same time, the
 transactions remain **independent**. This is, if one fails, the other is **NOT** rollback.
@@ -62,11 +62,14 @@ transactions remain **independent**. This is, if one fails, the other is **NOT**
 
 # Quickstart
 
-Clone this repository locally or [**open it in gitpod**](https://gitpod.io/#/https://github.com/near-examples/hello-near-js). Then follow these steps:
+Use Node.js 22.22.2 or newer. Install with `npm ci`, then run `npm start`;
+`npm run build` produces the static site in `dist/`.
+
+Clone this repository locally, then follow these steps:
 
 ### 1. Install Dependencies
 ```bash
-npm install
+npm ci
 ```
 
 ### 2. Start the Frontend
@@ -78,5 +81,4 @@ npm start
 ---
 
 # Learn More
-1. Learn more about the contract through its [README](./contract/README.md).
-2. Check [**our documentation**](https://docs.near.org/develop/welcome).
+See the [multiple-contract frontend tutorial](https://docs.near.org/web3-apps/tutorials/frontend-multiple-contracts).
