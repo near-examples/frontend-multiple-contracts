@@ -3,31 +3,20 @@
   "version": "1.0.0",
   "license": "(MIT AND Apache-2.0)",
   "scripts": {
-    "start": "cd frontend && parcel index.html --open",
-    "build": "cd frontend && parcel build index.html --public-url ./"
+    "start": "vite frontend --open",
+    "build": "vite build frontend --outDir ../dist --emptyOutDir --base ./",
+    "test": "node --test tests/*.test.mjs"
   },
   "devDependencies": {
-    "buffer": "^5.7.1",
-    "crypto-browserify": "^3.12.0",
-    "env-cmd": "^10.1.0",
-    "events": "^3.3.0",
-    "https-browserify": "^1.0.0",
-    "nodemon": "^2.0.16",
-    "parcel": "^2.7.0",
-    "process": "^0.11.10",
-    "stream-browserify": "^3.0.0",
-    "stream-http": "^3.1.0",
-    "url": "^0.11.0",
-    "vm-browserify": "^1.1.2"
+    "vite": "^6.4.5",
+    "vite-plugin-node-polyfills": "^0.24.0"
   },
   "dependencies": {
-    "@near-wallet-selector/core": "^8.9.7",
-    "@near-wallet-selector/here-wallet": "^8.9.7",
-    "@near-wallet-selector/modal-ui": "^8.9.7",
-    "@near-wallet-selector/my-near-wallet": "^8.9.7",
-    "near-api-js": "^3.0.4"
+    "near-api-js": "^7.4.0",
+    "@hot-labs/near-connect": "^0.12.0"
   },
-  "overrides": {
-    "near-api-js": "^3.0.4"
-  }
+  "engines": {
+    "node": ">=22.22.2"
+  },
+  "type": "module"
 }

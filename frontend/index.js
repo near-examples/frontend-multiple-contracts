@@ -1,5 +1,4 @@
-import 'regenerator-runtime/runtime';
-import { utils } from 'near-api-js'
+import { nearToYocto } from 'near-api-js'
 import { Wallet } from './wallet';
 
 const HELLO_ADDRESS = "hello.near-examples.testnet";
@@ -30,7 +29,7 @@ async function sendGreeting(event) {
 
   document.querySelector('#signed-in-flow').classList.add('please-wait');
 
-  const GUEST_DEPOSIT = premium_check.checked ? utils.format.parseNearAmount('0.1') : '0';
+  const GUEST_DEPOSIT = premium_check.checked ? nearToYocto('0.1').toString() : '0';
 
   const guestTx = {
     receiverId: GUEST_ADDRESS,
@@ -59,7 +58,14 @@ async function sendGreeting(event) {
   }
 
   // Sign **independent** transactions: If one fails, the other **DOES NOT** revert
-  await wallet.signAndSendTransactions({ transactions: [ helloTx, guestTx ] })
+  try {
+    await wallet.signAndSendTransactions({ transactions: [helloTx, guestTx] });
+    await getGreetingAndMessages();
+  } catch (error) {
+    window.alert(`Could not submit both transactions: ${error.message}`);
+  } finally {
+    document.querySelector('#signed-in-flow').classList.remove('please-wait');
+  }
 }
 
 async function getGreetingAndMessages() {
@@ -91,7 +97,7 @@ function signedInFlow(accountId) {
 }
 
 function update_UI(greeting, from, messages) {
-  document.querySelector('#greeting').innerHTML = greeting;
+  document.querySelector('#greeting').textContent = greeting;
 
   const list = document.querySelector('#message-list')
   list.innerHTML = "";
@@ -99,15 +105,11 @@ function update_UI(greeting, from, messages) {
   let idx = from;
   messages.forEach(msg => {
     let item = document.createElement('tr')
-    const innerHTML = `
-      <tr>
-       <th scope="row">${idx++}</th>
-       <td> ${msg.sender} </td>
-       <td> ${msg.text} </td>
-       <td> ${msg.premium}</td>
-      </tr>
-    `
-    item.innerHTML = innerHTML
+    for (const value of [idx++, msg.sender, msg.text, msg.premium]) {
+      const cell = document.createElement('td');
+      cell.textContent = String(value);
+      item.appendChild(cell);
+    }
     list.appendChild(item)
   })
 }
